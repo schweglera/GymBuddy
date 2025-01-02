@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Startseite</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Willkommen bei Gym-Buddy!</h1>
+
+        {% if user.is_authenticated %}
+            <p>Hallo, {{ user.username }}!</p>
+
+        <nav>
+            <ul>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li><a href="{% url 'workout_create' %}">Workout aufzeichnen</a></li>
+                    <li><a href="{% url 'coach_shop' %}">Hol Dir einen Coach!</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Registrierung</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+
+            <h2>Neueste Artikel</h2>
+            <ul>
+                {% for article in articles %}
+                    <li>
+                        <a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a>
+                    </li>
+                {% empty %}
+                    <p>Keine Artikel verfügbar.</p>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Willkommen! Bitte <a href="{% url 'login' %}">logge dich ein</a> oder <a href="{% url 'register' %}">registriere dich</a>, um alle Funktionen zu nutzen.</p>
+        {% endif %}
+
+        <footer>
+            <p>&copy; 2024 Gym-Buddy</p>
+        </footer>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+// @no-cookie-jar
+POST http://127.0.0.1:8000/article/new/ HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Cookie: csrftoken=KjjuBgIQn0l266Qu16vMoAbFNEmIayXUjzF4nICniEGkVjeZL2kSNPuqJyg1X9BP
+
+csrfmiddlewaretoken=KjjuBgIQn0l266Qu16vMoAbFNEmIayXUjzF4nICniEGkVjeZL2kSNPuqJyg1X9BP&title=Beispiel+Artikel&content=Dies+ist+der+Inhalt+des+Blog-Artikels

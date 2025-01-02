@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ article.title }}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ article.title }}</h1>
+        <p>{{ article.content }}</p>
+        <h2>Kommentare</h2>
+        <div>
+            {% for comment in article.comments.all %}
+            <p><strong>{{ comment.author }}:</strong> {{ comment.text }}</p>
+            {% empty %}
+            <p>Keine Kommentare vorhanden.</p>
+            {% endfor %}
+        </div>
+
+        <h2>Kommentar hinzufügen</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Kommentar absenden</button>
+        </form>
+        <a href="{% url 'article_list' %}">Zurück zur Artikelliste</a>
+    </div>
+</body>
+</html>

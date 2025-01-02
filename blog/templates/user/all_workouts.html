@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alle Workouts</title>
+</head>
+<body>
+    <h1>Alle Workouts von {{ user.username }}</h1>
+    <ul>
+        {% for workout in workouts %}
+            <li>{{ workout.date }} - {{ workout.workout_type }}: {{ workout.duration }}</li>
+        {% empty %}
+            <li>Keine Workouts gefunden.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'dashboard' %}">Zurück zum Dashboard</a>
+    <a href="{% url 'article_list' %}">Startseite</a>
+</body>
+</html>
