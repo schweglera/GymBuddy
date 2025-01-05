@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Neuen Artikel hinzufügen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Neuen Artikel hinzufügen</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Artikel speichern</button>
+        </form>
+        <a href="{% url 'article_list' %}">Zurück zur Artikelliste</a>
+    </div>
+</body>
+</html>

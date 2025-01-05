@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blog Artikel</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Blog Artikel</h1>
+        <ul>
+            {% for article in articles %}
+            <li>
+                <a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'add_article' %}">Artikel hinzufügen</a>
+    </div>
+</body>
+</html>
