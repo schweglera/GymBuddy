@@ -8,9 +8,7 @@ from .forms import CommentForm
 from .models import Article
 
 
-def article_list(request):
-    articles = Article.objects.all()
-    return render(request, "article_list.html", {"articles": articles})
+
 
 
 def article_detail(request, pk):
@@ -48,3 +46,65 @@ def add_article(request):
         form = ArticleForm()
     return render(request, "add_article.html", {"form": form})
 
+
+
+
+#------------------------
+
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def workout_list(request):
+    workouts = Workout.objects.filter(user=request.user)
+    return render(request, "workout_list.html", {"workouts": workouts})
+
+
+
+from django.shortcuts import render, redirect
+from .forms import RegisterForm
+
+def register(request):
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+    else:
+        form = RegisterForm()
+    return render(request, "register.html", {"form": form})
+
+@login_required
+def dashboard(request):
+    user = request.user
+    workouts = user.workout_set.all().order_by('-date')[:5]  # Zeigt die letzten 5 Workouts
+    meal_plans = user.mealplan_set.all()
+    training_plans = user.trainingplan_set.all()
+
+    return render(request, "user/dashboard.html", {
+        "workouts": workouts,
+        "meal_plans": meal_plans,
+        "training_plans": training_plans,
+    })
+
+@login_required
+def all_workouts(request):
+    user = request.user
+    workouts = user.workout_set.all().order_by('-date')  # Alle Workouts des eingeloggten Benutzers
+    return render(request, "user/all_workouts.html", {"workouts": workouts})
+
+def article_list(request):
+    articles = Article.objects.all()[:5]  # Letzte 5 Artikel
+    return render(request, "article_list.html", {"articles": articles})
+
+
+
+
+@login_required
+def workout_create(request):
+    # Workout-Recorder wird hier später implementiert
+    return render(request, "workout_create.html", {})
+
+@login_required
+def coach_shop(request):
+    # Coach-Shop wird hier später implementiert
+    return render(request, "coach_shop.html", {})

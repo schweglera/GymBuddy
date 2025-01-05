@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Willkommen, {{ user.username }}</h1>
+
+    <h2>Letzte 5 Workouts</h2>
+    <ul>
+        {% for workout in workouts %}
+            <li>{{ workout.date }} - {{ workout.workout_type }}: {{ workout.duration }}</li>
+        {% empty %}
+            <li>Keine Workouts gefunden.</li>
+        {% endfor %}
+    </ul>
+    <p><a href="{% url 'all_workouts' %}">Alle Workouts anzeigen</a></p>
+
+    <h2>Trainingspläne</h2>
+    <ul>
+        {% for plan in training_plans %}
+            <li>{{ plan.name }} - Ziel: {{ plan.goal }}</li>
+        {% empty %}
+            <li>Keine Trainingspläne gefunden.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Ernährungspläne</h2>
+    <ul>
+        {% for plan in meal_plans %}
+            <li>{{ plan.name }} - Kalorien: {{ plan.calories }}</li>
+        {% empty %}
+            <li>Keine Ernährungspläne gefunden.</li>
+        {% endfor %}
+    </ul>
+
+    <nav>
+        <ul>
+            <li><a href="/">Startseite</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+</body>
+</html>

@@ -69,14 +69,3 @@ class AddArticleViewTests(TestCase):
         new_article = Article.objects.latest("id")
         self.assertEqual(new_article.title, "Neuer Artikel")
         self.assertEqual(new_article.content, "Inhalt des neuen Artikels")
-
-    def test_add_article_view_error(self):
-        response = self.client.post(
-            reverse("add_article"),
-            {"title": "Neuer Artikel", "content": "Inhalt des neuen Artikels"},
-        )
-        self.assertEqual(response.status_code, 302)
-        # Holt den zuletzt hinzugefügten Artikel aus der Datenbank basierend auf der höchsten ID
-        new_article = Article.objects.latest("id")
-        self.assertEqual(new_article.title, "Neuer Artikel")
-        self.assertEqual(new_article.content, "Inhalt des neuen Artikels")

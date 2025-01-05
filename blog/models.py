@@ -1,6 +1,8 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxLengthValidator, MinLengthValidator
 from django.db import models
+from django.contrib.auth.models import User
+
 
 _TITLE_MIN_LENGTH = 1
 _TITLE_MAX_LENGTH = 100
@@ -69,3 +71,37 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Kommentar von {self.author} zum Artikel '{self.article}'"
+
+
+
+
+
+
+
+class Workout(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField()
+    workout_type = models.CharField(max_length=50)
+    duration = models.DurationField()
+    repetitions = models.IntegerField(null=True, blank=True)
+    weight = models.FloatField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.workout_type} am {self.date}"
+
+class MealPlan(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    calories = models.IntegerField()
+
+    def __str__(self):
+        return self.name
+
+class TrainingPlan(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    goal = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
