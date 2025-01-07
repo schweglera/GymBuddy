@@ -97,12 +97,21 @@ def article_list(request):
     return render(request, "article_list.html", {"articles": articles})
 
 
-
+from .forms import WorkoutCreateForm
 
 @login_required
 def workout_create(request):
-    # Workout-Recorder wird hier später implementiert
-    return render(request, "workout_create.html", {})
+    if request.method == "POST":
+        form = WorkoutCreateForm(request.POST)
+        if form.is_valid():
+            workout = form.save(commit=False)
+            workout.user = request.user
+            workout.save()
+            return redirect("dashboard")
+    else:
+        form = WorkoutCreateForm()
+
+    return render(request, "workout_create.html", {"form": form})
 
 @login_required
 def coach_shop(request):

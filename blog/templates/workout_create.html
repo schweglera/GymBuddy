@@ -6,7 +6,11 @@
 <body>
     <h1>Erfasse Dein Workout</h1>
     <p>Hier wird der Workout-Recorder implementiert.</p>
-
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Workout speichern</button>
+        </form>
     <a href="{% url 'dashboard' %}">Zurück zum Dashboard</a>
     <a href="{% url 'article_list' %}">Startseite</a>
 </body>

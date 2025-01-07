@@ -74,20 +74,17 @@ class Comment(models.Model):
 
 
 
-
-
-
-
 class Workout(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField()
     workout_type = models.CharField(max_length=50)
     duration = models.DurationField()
-    repetitions = models.IntegerField(null=True, blank=True)
-    weight = models.FloatField(null=True, blank=True)
+    exercices = models.CharField(max_length=100)
 
     def __str__(self):
         return f"{self.workout_type} am {self.date}"
+
+
 
 class MealPlan(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

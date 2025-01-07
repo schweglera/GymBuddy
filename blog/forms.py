@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Article
+from .models import Article, Workout
 from .models import Comment
 
 __FORBIDDEN_WORDS = [
@@ -70,6 +70,13 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ["username", "email", "password1", "password2"]
+
+class WorkoutCreateForm(forms.ModelForm):
+    class Meta:
+        model = Workout
+        fields = ["date", "workout_type", "duration", "exercices"]
+        labels = {"date": "Datum", "workout_type": "Trainingskategorie", "duration": "Länge", "exercices": "Übungen"}
+
 
 
 
