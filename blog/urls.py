@@ -13,8 +13,8 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     path("dashboard/", views.dashboard, name="dashboard"),
     path('workouts/', views.all_workouts, name='all_workouts'),
-    path('workout/create/', views.workout_create, name='workout_create'),  # Workout erfassen (Platzhalter)
-    path('coach/shop/', views.coach_shop, name='coach_shop'),  # Coach-Shop (Platzhalter)
+    path('workout/create/', views.workout_create, name='workout_create'),
+    path('coach/shop/', views.coach_shop, name='coach_shop'),
 ]
 
 

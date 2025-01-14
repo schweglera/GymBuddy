@@ -72,7 +72,7 @@ class Comment(models.Model):
     def __str__(self):
         return f"Kommentar von {self.author} zum Artikel '{self.article}'"
 
-
+#---------------------------------------------------
 
 class Workout(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
