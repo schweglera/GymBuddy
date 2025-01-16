@@ -1,7 +1,7 @@
 from django import forms
-
 from .models import Article, Workout
 from .models import Comment
+
 
 __FORBIDDEN_WORDS = [
     "unangemessenesWort1",
@@ -72,10 +72,11 @@ class RegisterForm(UserCreationForm):
         fields = ["username", "email", "password1", "password2"]
 
 class WorkoutCreateForm(forms.ModelForm):
+
     class Meta:
         model = Workout
         fields = ["date", "workout_type", "duration", "exercices"]
-        labels = {"date": "Datum", "workout_type": "Trainingskategorie", "duration": "Länge", "exercices": "Übungen"}
+        labels = {"date": "Datum (YYYY-MM-DD)", "workout_type": "Trainingskategorie", "duration": "Länge", "exercices": "Übungen"}
 
 
 

@@ -73,10 +73,12 @@ class Comment(models.Model):
         return f"Kommentar von {self.author} zum Artikel '{self.article}'"
 
 #---------------------------------------------------
+import datetime
+
 
 class Workout(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField()
+    date = models.DateField(default=datetime.date.today)
     workout_type = models.CharField(max_length=50)
     duration = models.DurationField()
     exercices = models.CharField(max_length=100)
