@@ -7,7 +7,11 @@
     <h1>Alle Workouts von {{ user.username }}</h1>
     <ul>
         {% for workout in workouts %}
-            <li>{{ workout.date }} - {{ workout.workout_type }}: {{ workout.duration }}</li>
+            <li>
+                <a href="{% url 'workout_detail' workout.pk %}">
+                    {{ workout.date }} - {{ workout.workout_type }}: {{ workout.duration }}
+                </a>
+            </li>
         {% empty %}
             <li>Keine Workouts gefunden.</li>
         {% endfor %}

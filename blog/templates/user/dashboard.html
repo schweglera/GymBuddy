@@ -18,8 +18,12 @@
 
     <h2>Trainingspläne</h2>
     <ul>
-        {% for plan in training_plans %}
-            <li>{{ plan.name }} - Ziel: {{ plan.goal }}</li>
+        {% for tplan in tplans %}
+            <li>
+                <a href="{% url 'tplan_detail' tplan.pk %}">
+                    {{ tplan.name }} - {{ tplan.category }}
+                </a>
+            </li>
         {% empty %}
             <li>Keine Trainingspläne gefunden.</li>
         {% endfor %}
@@ -33,12 +37,9 @@
             <li>Keine Ernährungspläne gefunden.</li>
         {% endfor %}
     </ul>
-
-    <nav>
-        <ul>
-            <li><a href="/">Startseite</a></li>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-        </ul>
-    </nav>
+    </ul>
+    <a href="{% url 'article_list' %}">Startseite</a>
+    <a href="{% url 'logout' %}">Logout</a>
+    </ul>
 </body>
 </html>

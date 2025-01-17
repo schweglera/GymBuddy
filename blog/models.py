@@ -99,7 +99,13 @@ class MealPlan(models.Model):
 class TrainingPlan(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    goal = models.CharField(max_length=100)
+    category = models.CharField(max_length=100)
+    exercise1 = models.CharField(max_length=100)
+    exercise2 = models.CharField(max_length=100)
+    exercise3 = models.CharField(max_length=100)
+    exercise4 = models.CharField(max_length=100)
+    exercise5 = models.CharField(max_length=100)
+    exercise6 = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name

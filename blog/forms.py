@@ -1,5 +1,5 @@
 from django import forms
-from .models import Article, Workout
+from .models import Article, Workout, TrainingPlan
 from .models import Comment
 
 
@@ -78,6 +78,16 @@ class WorkoutCreateForm(forms.ModelForm):
         fields = ["date", "workout_type", "duration", "exercices"]
         labels = {"date": "Datum (YYYY-MM-DD)", "workout_type": "Trainingskategorie", "duration": "Länge", "exercices": "Übungen"}
 
+class TrainingPlanCreateForm(forms.ModelForm):
 
-
-
+    class Meta:
+        model = TrainingPlan
+        fields = ["name", "category", "exercise1", "exercise2", "exercise3", "exercise4", "exercise5", "exercise6"]
+        labels = {"name": "Bezeichnung",
+                  "category": "Trainingskategorie",
+                  "exercise1": "Übung 1",
+                  "exercise2": "Übung 2",
+                  "exercise3": "Übung 3",
+                  "exercise4": "Übung 4",
+                  "exercise5": "Übung 5",
+                  "exercise6": "Übung 6"}

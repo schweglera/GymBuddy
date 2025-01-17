@@ -3,12 +3,9 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 
-from .forms import ArticleForm
+from .forms import ArticleForm, TrainingPlanCreateForm
 from .forms import CommentForm
-from .models import Article
-
-
-
+from .models import Article, TrainingPlan, Workout
 
 
 def article_detail(request, pk):
@@ -83,17 +80,17 @@ def dashboard(request):
     return render(request, "user/dashboard.html", {
         "workouts": workouts,
         "meal_plans": meal_plans,
-        "training_plans": training_plans,
+        "tplans": training_plans,
     })
 
 @login_required
 def all_workouts(request):
     user = request.user
-    workouts = user.workout_set.all().order_by('-date')  # Alle Workouts des eingeloggten Benutzers
+    workouts = user.workout_set.all().order_by('-date')
     return render(request, "user/all_workouts.html", {"workouts": workouts})
 
 def article_list(request):
-    articles = Article.objects.all()[:5]  # Letzte 5 Artikel
+    articles = Article.objects.all()[:5]
     return render(request, "article_list.html", {"articles": articles})
 
 
@@ -112,6 +109,38 @@ def workout_create(request):
         form = WorkoutCreateForm()
 
     return render(request, "workout_create.html", {"form": form})
+
+@login_required
+def workout_detail(request, pk):
+    workout = get_object_or_404(Workout, pk=pk, user=request.user)
+    return render(request, "user/workout_detail.html", {"workout": workout})
+
+
+@login_required
+def tplan(request):
+    user = request.user
+    tplans = user.trainingplan_set.all().order_by('name')
+    return render(request, "user/all_tplan.html", {"tplans": tplans})
+
+
+@login_required
+def tplan_create(request):
+    if request.method == "POST":
+        form = TrainingPlanCreateForm(request.POST)
+        if form.is_valid():
+            plan = form.save(commit=False)
+            plan.user = request.user
+            plan.save()
+            return redirect("dashboard")
+    else:
+        form = TrainingPlanCreateForm()
+
+    return render(request, "tplan_create.html", {"form": form})
+
+@login_required
+def tplan_detail(request, pk):
+    tplan = get_object_or_404(TrainingPlan, pk=pk, user=request.user)
+    return render(request, "user/tplan_detail.html", {"tplan": tplan})
 
 @login_required
 def coach_shop(request):

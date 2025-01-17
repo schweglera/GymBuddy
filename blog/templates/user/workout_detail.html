@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Workout Detail</title>
+</head>
+<body>
+    <h1>{{ workout.workout_type }} - Details</h1>
+    <p>Datum: {{ workout.date }}</p>
+    <p>Dauer: {{ workout.duration }}</p>
+    <p>Übungen: {{ workout.exercices }}</p>
+
+    <a href="{% url 'all_workouts' %}">Zurück zu allen Workouts</a>
+    <a href="{% url 'dashboard' %}">Zurück zum Dashboard</a>
+</body>
+</html>
