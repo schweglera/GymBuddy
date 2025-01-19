@@ -18,7 +18,6 @@
                     <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
                     <li><a href="{% url 'workout_create' %}">Workout aufzeichnen</a></li>
                     <li><a href="{% url 'coach_shop' %}">Hol Dir einen Coach!</a></li>
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
                     <li><a href="{% url 'login' %}">Login</a></li>
                     <li><a href="{% url 'register' %}">Registrierung</a></li>
@@ -37,14 +36,23 @@
                     <p>Keine Artikel verfügbar.</p>
                 {% endfor %}
             </ul>
+
+            <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer; margin-top: 20px;">
+                    Logout
+                </button>
+            </form>
+
         {% else %}
             <p>Welcome! Bitte <a href="{% url 'login' %}">logge dich ein</a> oder <a href="{% url 'register' %}">registriere dich</a>, um alle Funktionen zu nutzen.</p>
         {% endif %}
 
         <footer>
-            <p>&copy; 2024 Gym-Buddy</p>
+            <p>&copy; NADA Software</p>
         </footer>
     </div>
+
 </body>
 
 </html>
