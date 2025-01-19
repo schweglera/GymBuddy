@@ -70,6 +70,9 @@ def register(request):
         form = RegisterForm()
     return render(request, "register.html", {"form": form})
 
+
+
+
 @login_required
 def dashboard(request):
     user = request.user
