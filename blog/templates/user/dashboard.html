@@ -27,6 +27,12 @@
         {% empty %}
             <li>Keine Trainingspläne gefunden.</li>
         {% endfor %}
+
+    </ul>
+    <ul>
+    <a href="{% url 'tplan_create'  %}">
+    Trainingsplan erstellen
+    </a>
     </ul>
 
     <h2>Ernährungspläne</h2>
@@ -40,6 +46,12 @@
         {% empty %}
             <li>Keine Pläne gefunden.</li>
         {% endfor %}
+    </ul>
+
+    <ul>
+    <a href="{% url 'mplan_create'  %}">
+    Ernährungsplan erstellen
+    </a>
     </ul>
 
     </ul>
