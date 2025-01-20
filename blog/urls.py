@@ -19,6 +19,10 @@ urlpatterns = [
     path('trainingsplan/create/', views.tplan_create, name='tplan_create'),
     path('trainingsplaene/', views.tplan, name='all_tplan'),
     path('trainingsplan/<int:pk>/', views.tplan_detail, name='tplan_detail'),
+    path('ernaehrungsplan/create/', views.mplan_create, name='mplan_create'),
+    path('ernaehrungsplaene/', views.mplan, name='all_mplan'),
+    path('ernaehrungsplan/<int:pk>/', views.mplan_detail, name='mplan_detail'),
+
 ]
 
 

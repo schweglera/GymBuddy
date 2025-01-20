@@ -3,9 +3,15 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.shortcuts import render
 
-from .forms import ArticleForm, TrainingPlanCreateForm
+from django.forms import modelformset_factory
+from .forms import ArticleForm, TrainingPlanCreateForm, MealPlanCreateForm
+from .forms import WorkoutCreateForm
+from .forms import ExerciseCreateForm
 from .forms import CommentForm
-from .models import Article, TrainingPlan, Workout
+from .models import Article, TrainingPlan, Workout, Exercise, MealPlan
+
+ExerciseFormSet = modelformset_factory(Exercise, form=ExerciseCreateForm, extra=1)
+
 
 
 def article_detail(request, pk):
@@ -77,13 +83,13 @@ def register(request):
 def dashboard(request):
     user = request.user
     workouts = user.workout_set.all().order_by('-date')[:5]  # Zeigt die letzten 5 Workouts
-    meal_plans = user.mealplan_set.all()
-    training_plans = user.trainingplan_set.all()
+    mplans = user.mealplan_set.all()
+    tplans = user.trainingplan_set.all()
 
     return render(request, "user/dashboard.html", {
         "workouts": workouts,
-        "meal_plans": meal_plans,
-        "tplans": training_plans,
+        "mplans": mplans,
+        "tplans": tplans,
     })
 
 @login_required
@@ -97,27 +103,42 @@ def article_list(request):
     return render(request, "article_list.html", {"articles": articles})
 
 
-from .forms import WorkoutCreateForm
 
 @login_required
 def workout_create(request):
     if request.method == "POST":
-        form = WorkoutCreateForm(request.POST)
-        if form.is_valid():
-            workout = form.save(commit=False)
+        workout_form = WorkoutCreateForm(request.POST)
+        exercise_formset = ExerciseFormSet(request.POST, queryset=Exercise.objects.none())
+
+        if workout_form.is_valid() and exercise_formset.is_valid():
+            workout = workout_form.save(commit=False)
             workout.user = request.user
             workout.save()
+
+            for exercise_form in exercise_formset:
+                if exercise_form.cleaned_data:
+                    exercise = exercise_form.save(commit=False)
+                    exercise.workout = workout
+                    exercise.save()
+
             return redirect("dashboard")
     else:
-        form = WorkoutCreateForm()
+        workout_form = WorkoutCreateForm()
+        exercise_formset = ExerciseFormSet(queryset=Exercise.objects.none())
 
-    return render(request, "workout_create.html", {"form": form})
+    return render(request, "workout_create.html", {
+        "workout_form": workout_form,
+        "exercise_formset": exercise_formset,
+    })
 
 @login_required
 def workout_detail(request, pk):
     workout = get_object_or_404(Workout, pk=pk, user=request.user)
-    return render(request, "user/workout_detail.html", {"workout": workout})
-
+    exercises = workout.exercises.all()
+    return render(request, "workout_detail.html", {
+        "workout": workout,
+        "exercises": exercises,
+    })
 
 @login_required
 def tplan(request):
@@ -144,6 +165,42 @@ def tplan_create(request):
 def tplan_detail(request, pk):
     tplan = get_object_or_404(TrainingPlan, pk=pk, user=request.user)
     return render(request, "user/tplan_detail.html", {"tplan": tplan})
+
+
+@login_required
+def mplan(request):
+    user = request.user
+    mplans = user.mealplan_set.all().order_by('name')
+    return render(request, "user/all_mplan.html", {"mplans": mplans})
+
+
+@login_required
+def mplan_create(request):
+    if request.method == "POST":
+        form = MealPlanCreateForm(request.POST)
+        if form.is_valid():
+            plan = form.save(commit=False)
+            plan.user = request.user
+            plan.save()
+            return redirect("dashboard")
+    else:
+        form = MealPlanCreateForm()
+
+    return render(request, "mplan_create.html", {"form": form})
+
+@login_required
+def mplan_detail(request, pk):
+    mplan = get_object_or_404(MealPlan, pk=pk, user=request.user)
+    return render(request, "user/mplan_detail.html", {"mplan": mplan})
+
+
+
+
+
+
+
+
+
 
 @login_required
 def coach_shop(request):

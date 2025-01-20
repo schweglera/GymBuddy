@@ -31,12 +31,17 @@
 
     <h2>Ernährungspläne</h2>
     <ul>
-        {% for plan in meal_plans %}
-            <li>{{ plan.name }} - Kalorien: {{ plan.calories }}</li>
+        {% for mplan in mplans %}
+            <li>
+                <a href="{% url 'mplan_detail' mplan.pk %}">
+                    {{ mplan.name }} - {{ mplan.calories }}
+                </a>
+            </li>
         {% empty %}
-            <li>Keine Ernährungspläne gefunden.</li>
+            <li>Keine Pläne gefunden.</li>
         {% endfor %}
     </ul>
+
     </ul>
     <a href="{% url 'article_list' %}">Startseite</a>
     <a href="{% url 'logout' %}">Logout</a>

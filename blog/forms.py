@@ -1,6 +1,7 @@
 from django import forms
-from .models import Article, Workout, TrainingPlan
+from .models import Article, Workout, TrainingPlan, Exercise, MealPlan
 from .models import Comment
+from django.forms import modelformset_factory
 
 
 __FORBIDDEN_WORDS = [
@@ -75,8 +76,24 @@ class WorkoutCreateForm(forms.ModelForm):
 
     class Meta:
         model = Workout
-        fields = ["date", "workout_type", "duration", "exercices"]
-        labels = {"date": "Datum (YYYY-MM-DD)", "workout_type": "Trainingskategorie", "duration": "Länge", "exercices": "Übungen"}
+        fields = ["date", "workout_type", "duration"]
+        labels = {"date": "Datum (yyyy-mm-dd)",
+                  "workout_type": "Trainingskategorie",
+                  "duration": "Länge (hh:mm:ss)"}
+
+
+class ExerciseCreateForm(forms.ModelForm):
+    class Meta:
+        model = Exercise
+        fields = ["name", "sets", "reps", "weight"]
+        labels = {"name": "Übung",
+                  "sets": "Sätze",
+                  "reps": "Wiederholungen",
+                  "weight": "Gewicht"}
+
+ExerciseFormSet = modelformset_factory(Exercise, form=ExerciseCreateForm, extra=1)
+
+
 
 class TrainingPlanCreateForm(forms.ModelForm):
 
@@ -91,3 +108,16 @@ class TrainingPlanCreateForm(forms.ModelForm):
                   "exercise4": "Übung 4",
                   "exercise5": "Übung 5",
                   "exercise6": "Übung 6"}
+
+
+class MealPlanCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = MealPlan
+        fields = ["name", "breakfast", "snack1", "lunch", "snack2", "dinner", "calories"]
+        labels = {"name": "Bezeichnung",
+                  "breakfast": "Frühstück",
+                  "snack1": "Snack 1",
+                  "lunch": "Mittagessen",
+                  "snack2": "Snack 2",
+                  "dinner": "Abendessen",}

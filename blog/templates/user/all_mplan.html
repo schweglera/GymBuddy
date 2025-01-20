@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alle Ernährungspläne</title>
+</head>
+<body>
+    <h1>Deine Ernährungspläne</h1>
+    <ul>
+        {% for mplan in mplans %}
+            <li>
+                <a href="{% url 'mplan_detail' mplan.pk %}">
+                    {{ mplan.name }} - {{ mplan.calories }}
+                </a>
+            </li>
+        {% empty %}
+            <li>Keine Pläne gefunden.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'dashboard' %}">Zurück zum Dashboard</a>
+    <a href="{% url 'article_list' %}">Startseite</a>
+</body>
+</html>

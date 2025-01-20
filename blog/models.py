@@ -81,16 +81,31 @@ class Workout(models.Model):
     date = models.DateField(default=datetime.date.today)
     workout_type = models.CharField(max_length=50)
     duration = models.DurationField()
-    exercices = models.CharField(max_length=100)
 
     def __str__(self):
         return f"{self.workout_type} am {self.date}"
+
+
+class Exercise(models.Model):
+    workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="exercises") #related_name macht, dass man die entsprechende Referenzierung schöner gestalten kann (default value von Django ist jeweils "name_set"
+    name = models.CharField(max_length=50)
+    sets = models.PositiveIntegerField()
+    reps = models.PositiveIntegerField()
+    weight = models.FloatField()
+
+    def __str__(selfself):
+        return f"{self.name} - {self.sets}x{self.reps} @ {self.weight}kg"
 
 
 
 class MealPlan(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
+    breakfast = models.CharField(max_length=100, blank=True, null=True)
+    snack1 = models.CharField(max_length=100, blank=True, null=True)
+    lunch = models.CharField(max_length=100)
+    snack2 = models.CharField(max_length=100, blank=True, null=True)
+    dinner = models.CharField(max_length=100)
     calories = models.IntegerField()
 
     def __str__(self):
