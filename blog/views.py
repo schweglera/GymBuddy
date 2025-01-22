@@ -8,7 +8,9 @@ from .forms import ArticleForm, TrainingPlanCreateForm, MealPlanCreateForm
 from .forms import WorkoutCreateForm
 from .forms import ExerciseCreateForm
 from .forms import CommentForm
-from .models import Article, TrainingPlan, Workout, Exercise, MealPlan
+from .forms import AdminRegisterForm
+from .forms import CoachCreateForm
+from .models import Article, TrainingPlan, Workout, Exercise, MealPlan, Coach
 
 ExerciseFormSet = modelformset_factory(Exercise, form=ExerciseCreateForm, extra=1)
 
@@ -55,6 +57,7 @@ def add_article(request):
 #------------------------
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 
 @login_required
 def workout_list(request):
@@ -77,12 +80,21 @@ def register(request):
     return render(request, "register.html", {"form": form})
 
 
+def adminregister(request):
+    if request.method == "POST":
+        form = AdminRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+    else:
+        form = AdminRegisterForm()
+    return render(request, "adminregister.html", {"form": form})
 
 
 @login_required
 def dashboard(request):
     user = request.user
-    workouts = user.workout_set.all().order_by('-date')[:5]  # Zeigt die letzten 5 Workouts
+    workouts = user.workout_set.all().order_by('-date')[:5]
     mplans = user.mealplan_set.all()
     tplans = user.trainingplan_set.all()
 
@@ -99,8 +111,10 @@ def all_workouts(request):
     return render(request, "user/all_workouts.html", {"workouts": workouts})
 
 def article_list(request):
-    articles = Article.objects.all()[:5]
-    return render(request, "article_list.html", {"articles": articles})
+    articles = Article.objects.all().order_by('-id')[:5]
+    is_admin = request.user.is_authenticated and request.user.groups.filter(name="Admin").exists()
+
+    return render(request, "article_list.html", {"articles": articles, "is_admin": is_admin})
 
 
 
@@ -194,15 +208,30 @@ def mplan_detail(request, pk):
     return render(request, "user/mplan_detail.html", {"mplan": mplan})
 
 
+def is_admin(user):
+    return user.is_authenticated and user.groups.filter(name="Admin").exists()
 
+@user_passes_test(is_admin)
+def coach_create(request):
+    if request.method == "POST":
+        form = CoachCreateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("article_list")
 
+    else:
+        form = CoachCreateForm()
 
+    return render(request, "coach_create.html", {"form": form})
 
+def coach(request):
+    coaches = Coach.objects.all()
+    return render(request, "all_coach.html", {"coaches": coaches})
 
+def coach_detail(request, pk):
+    coach = get_object_or_404(Coach, pk=pk)
+    return render(request, "coach_detail.html", {"coach": coach})
 
-
-
-@login_required
-def coach_shop(request):
-    # Coach-Shop wird hier später implementiert
-    return render(request, "coach_shop.html", {})
+def community(request):
+    articles = Article.objects.all().order_by('-id')
+    return render(request, "all_community.html", {"articles": articles})

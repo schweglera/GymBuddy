@@ -124,3 +124,13 @@ class TrainingPlan(models.Model):
 
     def __str__(self):
         return self.name
+
+class Coach(models.Model):
+    name = models.CharField(max_length=100)
+    bio = models.TextField()
+    experience = models.PositiveIntegerField()
+    price_hour = models.PositiveIntegerField()
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.name

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Article, Workout, TrainingPlan, Exercise, MealPlan
+from .models import Article, Workout, TrainingPlan, Exercise, MealPlan, Coach
 from .models import Comment
 from django.forms import modelformset_factory
 
@@ -64,13 +64,39 @@ class CommentForm(forms.ModelForm):
 
 # -------------------
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
 
 class RegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ["username", "email", "password1", "password2"]
+
+class AdminRegisterForm(UserCreationForm):
+    access_code = forms.CharField(
+        max_length=20,
+        help_text="Bitte den Zugangscode für Admins eingeben."
+    )
+
+    class Meta:
+        model = User
+        fields = ["username", "password1", "password2", "access_code"]
+
+    def clean_access_code(self):
+        access_code = self.cleaned_data["access_code"]
+        SECRET_CODE = "HWZ"
+        if access_code != SECRET_CODE:
+            raise forms.ValidationError("Ungültiger Code")
+        return access_code
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+            admin_group, created = Group.objects.get_or_create(name="Admin")
+            user.groups.add(admin_group)
+        return user
+
 
 class WorkoutCreateForm(forms.ModelForm):
 
@@ -121,3 +147,14 @@ class MealPlanCreateForm(forms.ModelForm):
                   "lunch": "Mittagessen",
                   "snack2": "Snack 2",
                   "dinner": "Abendessen",}
+
+class CoachCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Coach
+        fields = ["name", "bio", "experience", "price_hour", "email"]
+        labels = {"name": "Name",
+                  "bio": "Bio",
+                  "experience": "Erfahrung in Jahren",
+                  "price_hour": "Preis pro Stunde",
+                  "email": "E-Mail"}

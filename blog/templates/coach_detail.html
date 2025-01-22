@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ coach.name }} - Details</title>
+</head>
+<body>
+    <h1>{{ coach.name }}</h1>
+    <p>{{ coach.bio }}</p>
+    <p>Erfahrung in Jahren: {{ coach.experience }} years</p>
+    <p>Price/Hour: ${{ coach.price_hour }}</p>
+    <p>Email: <a href="mailto:{{ coach.email }}">{{ coach.email }}</a></p>
+    <a href="{% url 'all_coach' %}" class="btn">Zurück zu den Coaches</a>
+    <a href="{% url 'logout' %}">Logout</a>
+</body>
+</html>

@@ -14,14 +14,16 @@
 
         <nav>
             <ul>
-                {% if user.is_authenticated %}
+
                     <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
                     <li><a href="{% url 'workout_create' %}">Workout aufzeichnen</a></li>
-                    <li><a href="{% url 'coach_shop' %}">Hol Dir einen Coach!</a></li>
-                {% else %}
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                    <li><a href="{% url 'register' %}">Registrierung</a></li>
-                {% endif %}
+                    <li><a href="{% url 'all_coach' %}">Hol Dir einen Coach!</a></li>
+
+
+                    {% if is_admin %}
+                        <li><a href="{% url 'coach_create' %}" class="btn btn-primary">Coach hinzufügen</a></li>
+                    {% endif %}
+
             </ul>
         </nav>
 
@@ -35,6 +37,7 @@
                 {% empty %}
                     <p>Keine Artikel verfügbar.</p>
                 {% endfor %}
+            <a href="{% url 'all_community' %}">Zu allen Beiträgen</a>
             </ul>
 
             <form method="post" action="{% url 'logout' %}" style="display: inline;">

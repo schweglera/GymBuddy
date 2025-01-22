@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Coach hinzufügen</title>
+</head>
+<body>
+    <h1>Coach hinzufügen</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Coach erstellen</button>
+    </form>
+
+    <a href="{% url 'article_list' %}">Zurück zur Startseite</a>
+</body>
+</html>
