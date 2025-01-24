@@ -86,7 +86,7 @@ class Workout(models.Model):
         return f"{self.workout_type} am {self.date}"
 
 
-class Exercise(models.Model):
+class Exercise(models.Model): #[3]
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE, related_name="exercises") #related_name macht, dass man die entsprechende Referenzierung schöner gestalten kann (default value von Django ist jeweils "name_set"
     name = models.CharField(max_length=50)
     sets = models.PositiveIntegerField()
@@ -117,10 +117,10 @@ class TrainingPlan(models.Model):
     category = models.CharField(max_length=100)
     exercise1 = models.CharField(max_length=100)
     exercise2 = models.CharField(max_length=100)
-    exercise3 = models.CharField(max_length=100)
-    exercise4 = models.CharField(max_length=100)
-    exercise5 = models.CharField(max_length=100)
-    exercise6 = models.CharField(max_length=100)
+    exercise3 = models.CharField(max_length=100, blank=True, null=True)
+    exercise4 = models.CharField(max_length=100, blank=True, null=True)
+    exercise5 = models.CharField(max_length=100, blank=True, null=True)
+    exercise6 = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.name

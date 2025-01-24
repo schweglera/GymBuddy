@@ -59,6 +59,10 @@ def add_article(request):
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 
+def community(request):
+    articles = Article.objects.all().order_by('-id')
+    return render(request, "all_community.html", {"articles": articles})
+
 @login_required
 def workout_list(request):
     workouts = Workout.objects.filter(user=request.user)
@@ -122,7 +126,7 @@ def article_list(request):
 def workout_create(request):
     if request.method == "POST":
         workout_form = WorkoutCreateForm(request.POST)
-        exercise_formset = ExerciseFormSet(request.POST, queryset=Exercise.objects.none())
+        exercise_formset = ExerciseCreateFormSet(request.POST, queryset=Exercise.objects.none())
 
         if workout_form.is_valid() and exercise_formset.is_valid():
             workout = workout_form.save(commit=False)
@@ -232,6 +236,3 @@ def coach_detail(request, pk):
     coach = get_object_or_404(Coach, pk=pk)
     return render(request, "coach_detail.html", {"coach": coach})
 
-def community(request):
-    articles = Article.objects.all().order_by('-id')
-    return render(request, "all_community.html", {"articles": articles})

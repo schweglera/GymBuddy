@@ -73,21 +73,19 @@ class RegisterForm(UserCreationForm):
         fields = ["username", "email", "password1", "password2"]
 
 class AdminRegisterForm(UserCreationForm):
-    access_code = forms.CharField(
-        max_length=20,
-        help_text="Bitte den Zugangscode für Admins eingeben."
-    )
+    access_code = forms.CharField(max_length=5)
 
     class Meta:
         model = User
         fields = ["username", "password1", "password2", "access_code"]
 
-    def clean_access_code(self):
-        access_code = self.cleaned_data["access_code"]
+    def secret_admin_code(self):
+        access_code = self.cleaned_data["access_code"] # [1]
         SECRET_CODE = "HWZ"
         if access_code != SECRET_CODE:
             raise forms.ValidationError("Ungültiger Code")
         return access_code
+
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -117,7 +115,7 @@ class ExerciseCreateForm(forms.ModelForm):
                   "reps": "Wiederholungen",
                   "weight": "Gewicht"}
 
-ExerciseFormSet = modelformset_factory(Exercise, form=ExerciseCreateForm, extra=1)
+ExerciseCreateFormSet = modelformset_factory(Exercise, form=ExerciseCreateForm, extra=1) # [3]
 
 
 

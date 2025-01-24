@@ -9,7 +9,6 @@
             const container = document.getElementById("exercise-container");
             const totalFormsInput = document.getElementById("id_form-TOTAL_FORMS");
             const formCount = parseInt(totalFormsInput.value);
-
             const emptyFormTemplate = document.getElementById("empty-form-template").innerHTML;
             const newFormHtml = emptyFormTemplate.replace(/__prefix__/g, formCount);
 
