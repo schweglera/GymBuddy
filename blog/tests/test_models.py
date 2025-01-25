@@ -3,6 +3,7 @@ from ..models import Article, Comment
 from django.core.exceptions import ValidationError
 
 
+
 class ArticleModelTest(TestCase):
     def test_title_length_validators(self):
         article = Article(title="a" * 0, content="Valid Content" * 100)

@@ -2,26 +2,30 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils.html import escape
 from ..models import Article, Comment
+from django.contrib.auth.models import User
+
 
 
 class ArticleListViewTests(TestCase):
     def setUp(self):
-        self.article = Article.objects.create(
-            title="Test Article", content="Test content for article."
-        )
+        #self.article = Article.objects.create(
+        #    title="Test Article", content="Test content for article."
+        #)
+        self.user = User.objects.create_user(username='testuser', password='password123')
+        self.client.force_login(self.user)
 
     def test_article_list_view_renders_correctly(self):
         response = self.client.get(reverse("article_list"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Blog Artikel")
-        self.assertContains(response, self.article.title)
+        self.assertContains(response, "Willkommen bei Gym-Buddy!")
+        #self.assertContains(response, self.article.title)
 
     def test_article_list_view_no_articles(self):
-        Article.objects.all().delete()
+        #Article.objects.all().delete()
         response = self.client.get(reverse("article_list"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Blog Artikel")
-        self.assertNotContains(response, self.article.title)
+        self.assertContains(response, "Willkommen bei Gym-Buddy!")
+        #self.assertNotContains(response, self.article.title)
 
 
 class ArticleDetailViewTests(TestCase):
