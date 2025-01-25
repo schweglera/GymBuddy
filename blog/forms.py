@@ -150,8 +150,9 @@ class CoachCreateForm(forms.ModelForm):
 
     class Meta:
         model = Coach
-        fields = ["name", "bio", "experience", "price_hour", "email"]
+        fields = ["name","category", "bio", "experience", "price_hour", "email"]
         labels = {"name": "Name",
+                  "category": "Trainingskategorie",
                   "bio": "Bio",
                   "experience": "Erfahrung in Jahren",
                   "price_hour": "Preis pro Stunde",

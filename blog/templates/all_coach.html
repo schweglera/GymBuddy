@@ -50,6 +50,7 @@
             {% for coach in coaches %}
                 <div class="coach-card">
                     <h3>{{ coach.name }}</h3>
+                    <p><strong>Trainingskategorie:</strong> {{ coach.category }}</p>
                     <p><strong>Erfahrung:</strong> {{ coach.experience }} Jahre</p>
                     <p><strong>Preis/Stunde:</strong> CHF {{ coach.price_hour }}</p>
                     <a href="{% url 'coach_detail' coach.pk %}" class="btn">Zum Coach</a>
