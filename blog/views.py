@@ -60,6 +60,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 
 def community(request):
+    # [2]
     articles = Article.objects.all().order_by('-id')
     return render(request, "all_community.html", {"articles": articles})
 

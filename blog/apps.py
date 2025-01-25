@@ -7,7 +7,7 @@ class BlogConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "blog"
 
-    def ready(self):
+    def ready(self): # [1]
         @receiver(post_migrate)
         def create_default_groups(sender, **kwargs):
             from django.contrib.auth.models import Group

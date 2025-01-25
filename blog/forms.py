@@ -73,7 +73,7 @@ class RegisterForm(UserCreationForm):
         fields = ["username", "email", "password1", "password2"]
 
 class AdminRegisterForm(UserCreationForm):
-    access_code = forms.CharField(max_length=5)
+    access_code = forms.CharField() # [1]
 
     class Meta:
         model = User
