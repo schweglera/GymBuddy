@@ -322,8 +322,6 @@ class CoachCreateViewTests(TestCase):
             "price_hour": 60,
             "email": "miriam.mueller@example.com",
         })
-        if response.status_code == 200:
-            print(response.context["form"].errors)
         self.assertEqual(response.status_code, 302)
         self.assertTrue(Coach.objects.filter(name="Miriam Müller").exists())
 
