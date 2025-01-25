@@ -1,13 +1,15 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.utils.html import escape
-from ..models import Article, Comment, MealPlan, TrainingPlan, Workout, Exercise
+from ..models import Article, Comment, MealPlan, TrainingPlan, Workout, Exercise, Coach
 from django.contrib.auth.models import User
 from datetime import date, datetime, timedelta
+from django.contrib.auth.models import Group
 
 
-
+#Test Artikel
 class ArticleListViewTests(TestCase):
+    print("Class-Datei wurde geladen 1")
     def setUp(self):
         self.article = Article.objects.create(
             title="Test Article", content="Test content for article."
@@ -18,6 +20,7 @@ class ArticleListViewTests(TestCase):
         self.client.force_login(self.user)
 
     def test_article_list_view_renders_correctly(self):
+        print("test-Datei wurde geladen 1.1")
         response = self.client.get(reverse("article_list"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Willkommen bei Gym-Buddy!")
@@ -33,6 +36,7 @@ class ArticleListViewTests(TestCase):
 
 
 class ArticleDetailViewTests(TestCase):
+    print("Class-Datei wurde geladen 2")
     def setUp(self):
         self.article = Article.objects.create(
             title="Test Article", content="Test content for article."
@@ -55,13 +59,13 @@ class ArticleDetailViewTests(TestCase):
             {"author": "Neuer Tester", "text": "Ein neuer Kommentar"},
         )
         self.assertEqual(response.status_code, 302)
-        # Holt den zuletzt hinzugefügten Kommentar aus der Datenbank basierend auf der höchsten ID
         new_comment = Comment.objects.latest("id")
         self.assertEqual(new_comment.text, "Ein neuer Kommentar")
         self.assertEqual(new_comment.author, "Neuer Tester")
 
 
 class AddArticleViewTests(TestCase):
+    print("Class-Datei wurde geladen 3")
     def test_add_article_view_get(self):
         response = self.client.get(reverse("add_article"))
         self.assertEqual(response.status_code, 200)
@@ -73,7 +77,6 @@ class AddArticleViewTests(TestCase):
             {"title": "Neuer Artikel", "content": "Inhalt des neuen Artikels"},
         )
         self.assertEqual(response.status_code, 302)
-        # Holt den zuletzt hinzugefügten Artikel aus der Datenbank basierend auf der höchsten ID
         new_article = Article.objects.latest("id")
         self.assertEqual(new_article.title, "Neuer Artikel")
         self.assertEqual(new_article.content, "Inhalt des neuen Artikels")
@@ -81,6 +84,7 @@ class AddArticleViewTests(TestCase):
 
 #Testing the Authentication Views
 class AuthenticationViewsTests(TestCase):
+    print("Class-Datei wurde geladen 4")
     def test_login_view_renders_correctly(self):
         response = self.client.get(reverse("login"))
         self.assertEqual(response.status_code, 200)
@@ -97,12 +101,14 @@ class AuthenticationViewsTests(TestCase):
             "password1": "testpassword123",
             "password2": "testpassword123"
         })
-        self.assertEqual(response.status_code, 302)  # Should redirect to login
+        self.assertEqual(response.status_code, 302)
         self.assertTrue(User.objects.filter(username="newuser").exists())
+        #Bemerkung: Email-Adresse muss nicht zwingend eingegeben werden.
 
 
-#Testing Dashboard
+#Testing Dashboard (coach hinzufügen auftaucht bei admin?)
 class DashboardViewTests(TestCase):
+    print("Class-Datei wurde geladen 5")
     def setUp(self):
         self.user = User.objects.create_user(username="testuser", password="password123")
         self.client.force_login(self.user)
@@ -115,29 +121,31 @@ class DashboardViewTests(TestCase):
 
 #Tests for Workouts
 class WorkoutViewsTests(TestCase):
+    print("Class-Datei wurde geladen 6")
     def setUp(self):
         self.user = User.objects.create_user(
             username="testuser", password="password123"
         )
         self.client.force_login(self.user)
         self.workout = Workout.objects.create(
-            user=self.user, workout_type="Cardio", duration=timedelta(minutes=30)
+            user=self.user, workout_type="Chest", duration=timedelta(minutes=30)
         )
         Exercise.objects.create(
             workout=self.workout, name="Pushups", sets=3, reps=15, weight=0
         )
 
     def test_workout_list_view(self):
+        print("test-Datei wurde geladen 6.1")
         response = self.client.get(reverse("all_workouts"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "user/all_workouts.html")
-        self.assertContains(response, "Cardio")
+        self.assertContains(response, "Chest")
 
     def test_workout_detail_view(self):
         response = self.client.get(reverse("workout_detail", args=[self.workout.pk]))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "workout_detail.html")
-        self.assertContains(response, "Cardio")
+        self.assertContains(response, "Chest")
         self.assertContains(response, "Pushups")
 
     def test_workout_create_view_get(self):
@@ -158,35 +166,18 @@ class WorkoutViewsTests(TestCase):
             "form-0-weight": 100,
         })
 
-        # Check if formset or form has validation issues
-        if response.status_code == 200:  # If not redirected, check for errors
-            print("Workout form errors:", response.context['workout_form'].errors)
-            print("Exercise formset errors:", response.context['exercise_formset'].errors)
+        if response.status_code == 200:
+            print("Workout form errors:", response.context["workout_form"].errors)
+            print("Exercise formset errors:", response.context["exercise_formset"].errors)
 
-        self.assertEqual(response.status_code, 302)  # Expect redirect
+        self.assertEqual(response.status_code, 302)
         self.assertTrue(Workout.objects.filter(workout_type="Strength").exists())
         self.assertTrue(Exercise.objects.filter(name="Squats").exists())
-
-class WorkoutListViewTests(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(username="testuser", password="password123")
-        self.client.force_login(self.user)
-        self.workout = Workout.objects.create(
-            user=self.user,
-            workout_type="Cardio",
-            duration=timedelta(minutes=30),
-            date=date.today()
-        )
-
-    def test_workout_list_view(self):
-        response = self.client.get(reverse("all_workouts"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "user/all_workouts.html")
-        self.assertContains(response, self.workout.workout_type)
 
 
 #Tests for Training Plans
 class TrainingPlanViewsTests(TestCase):
+    print("Class-Datei wurde geladen 8")
     def setUp(self):
         self.user = User.objects.create_user(username="testuser", password="password123")
         self.client.force_login(self.user)
@@ -229,6 +220,7 @@ class TrainingPlanViewsTests(TestCase):
 
 #Tests for Meal Plans
 class MealPlanViewsTests(TestCase):
+    print("Class-Datei wurde geladen 9")
     def setUp(self):
         self.user = User.objects.create_user(username="testuser", password="password123")
         self.client.force_login(self.user)
@@ -242,6 +234,7 @@ class MealPlanViewsTests(TestCase):
         )
 
     def test_meal_plan_list_view(self):
+        print("test-Datei wurde geladen 9.1")
         response = self.client.get(reverse("all_mplan"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "user/all_mplan.html")
@@ -267,117 +260,138 @@ class MealPlanViewsTests(TestCase):
             "dinner": "Salmon and Quinoa",
             "calories": 2500,
         })
-        self.assertEqual(response.status_code, 302)  # Should redirect to dashboard
+        self.assertEqual(response.status_code, 302)
         self.assertTrue(MealPlan.objects.filter(name="Muscle Gain Plan").exists())
 
-    class MealPlanDetailViewTests(TestCase):
-        def setUp(self):
-            self.user = User.objects.create_user(username="testuser", password="password123")
-            self.meal_plan = MealPlan.objects.create(user=self.user, name="My Meal Plan", calories=2000)
-            self.client.force_login(self.user)
 
-        def test_mplan_detail_view(self):
-            response = self.client.get(reverse("mplan_detail", args=[self.meal_plan.pk]))
-            self.assertEqual(response.status_code, 200)
-            self.assertTemplateUsed(response, "user/mplan_detail.html")
-            self.assertContains(response, "My Meal Plan")
+#Tests for Coaches
+class CoachViewsTests(TestCase):
+    print("Class-Datei wurde geladen 11")
+    def setUp(self):
+        self.coach = Coach.objects.create(
+            name="John Doe",
+            category="Fitness",
+            bio="Certified personal trainer",
+            experience=5,
+            price_hour=50,
+            email="john.doe@example.com",
+        )
+
+    def test_coach_list_view(self):
+        print("test-Datei wurde geladen 11.1")
+        response = self.client.get(reverse("all_coach"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "all_coach.html")
+        self.assertContains(response, "John Doe")
+
+    def test_coach_detail_view(self):
+        print("test-Datei wurde geladen 11.2")
+        response = self.client.get(reverse("coach_detail", args=[self.coach.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "coach_detail.html")
+        self.assertContains(response, "John Doe")
+        self.assertContains(response, "Certified personal trainer")
 
 
-    #Tests for Coaches
-    class CoachViewsTests(TestCase):
-        def setUp(self):
-            self.coach = Coach.objects.create(
-                name="John Doe",
-                category="Fitness",
-                bio="Certified personal trainer",
-                experience=5,
-                price_hour=50,
-                email="john.doe@example.com",
-            )
+class CoachCreateViewTests(TestCase):
+    print("Class-Datei wurde geladen 12")
+    def setUp(self):
+        self.user = User.objects.create_user(username="adminuser", password="password123")
+        self.admin_group, created = Group.objects.get_or_create(name="Admin")
+        self.admin_group.user_set.add(self.user)
+        self.client.force_login(self.user)
 
-        def test_coach_list_view(self):
-            response = self.client.get(reverse("all_coach"))
-            self.assertEqual(response.status_code, 200)
-            self.assertTemplateUsed(response, "all_coach.html")
-            self.assertContains(response, "John Doe")
+    def test_coach_create_view_get(self):
+        response = self.client.get(reverse("coach_create"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "coach_create.html")
 
-        def test_coach_detail_view(self):
-            response = self.client.get(reverse("coach_detail", args=[self.coach.pk]))
-            self.assertEqual(response.status_code, 200)
-            self.assertTemplateUsed(response, "coach_detail.html")
-            self.assertContains(response, "John Doe")
-            self.assertContains(response, "Certified personal trainer")
-
-    class CoachCreateViewTests(TestCase):
-        def setUp(self):
-            self.user = User.objects.create_user(username="adminuser", password="password123")
-            self.admin_group = Group.objects.create(name="Admin")
-            self.admin_group.user_set.add(self.user)
-            self.client.force_login(self.user)
-
-        def test_coach_create_view_get(self):
-            response = self.client.get(reverse("coach_create"))
-            self.assertEqual(response.status_code, 200)
-            self.assertTemplateUsed(response, "coach_create.html")
-
-        def test_coach_create_view_post(self):
-            response = self.client.post(reverse("coach_create"), {
-                "name": "Jane Doe",
-                "category": "Yoga",
-                "bio": "Certified yoga instructor",
-                "experience": 10,
-                "price_hour": 60,
-                "email": "jane.doe@example.com",
-            })
-            self.assertEqual(response.status_code, 302)
-            self.assertTrue(Coach.objects.filter(name="Jane Doe").exists())
+    def test_coach_create_view_post(self):
+        response = self.client.post(reverse("coach_create"), {
+            "name": "Jane Doe",
+            "category": "Yoga",
+            "bio": "Certified yoga instructor",
+            "experience": 10,
+            "price_hour": 60,
+            "email": "jane.doe@example.com",
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Coach.objects.filter(name="Jane Doe").exists())
 
 
 #Tests for Community
-    class CommunityViewTests(TestCase):
-        def setUp(self):
-            self.article = Article.objects.create(title="Community Post", content="Shared in the community.")
-            self.user = User.objects.create_user(username="testuser", password="password123")
-            self.client.force_login(self.user)
+class CommunityViewTests(TestCase):
+    print("Class-Datei wurde geladen 13")
+    def setUp(self):
+        self.article = Article.objects.create(
+            title="Community Post",
+            content="Shared in the community."
+        )
+        self.user = User.objects.create_user(
+            username="testuser",
+            password="password123"
+        )
+        self.client.force_login(self.user)
 
-        def test_community_view(self):
-            response = self.client.get(reverse("all_community"))
-            self.assertEqual(response.status_code, 200)
-            self.assertTemplateUsed(response, "all_community.html")
-            self.assertContains(response, "Community Post")
+    def test_community_view(self):
+        print("test-Datei wurde geladen 13.1")
+        response = self.client.get(reverse("all_community"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "all_community.html")
+        self.assertContains(response, "Community Post")
 
-        def test_community_view_renders_correctly(self):
-            response = self.client.get(reverse("all_community"))
-            self.assertEqual(response.status_code, 200)
-            self.assertTemplateUsed(response, "all_community.html")
-            self.assertContains(response, "Community Post")
+    def test_community_view_renders_correctly(self):
+        response = self.client.get(reverse("all_community"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "all_community.html")
+        self.assertContains(response, "Community Post")
 
 
 # Tests for Admin
-    class IsAdminTests(TestCase):
-        def setUp(self):
-            self.user = User.objects.create_user(username="testuser", password="password123")
-            self.admin_group = Group.objects.create(name="Admin")
-            self.admin_group.user_set.add(self.user)
+class IsAdminTests(TestCase):
+    print("Class-Datei wurde geladen 14")
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="testuser",
+            password="password123"
+        )
+        self.admin_group, created = Group.objects.get_or_create(name="Admin")
+        self.admin_group.user_set.add(self.user)
 
-        def test_is_admin(self):
-            self.client.force_login(self.user)
-            self.assertTrue(self.user.groups.filter(name="Admin").exists())
+    def test_is_admin(self):
+        self.client.force_login(self.user)
+        self.assertTrue(self.user.groups.filter(name="Admin").exists())
 
-    class AdminRegisterViewTests(TestCase):
-        def test_adminregister_get(self):
-            response = self.client.get(reverse("adminregister"))
-            self.assertEqual(response.status_code, 200)
-            self.assertTemplateUsed(response, "adminregister.html")
 
-        def test_adminregister_post(self):
-            response = self.client.post(reverse("adminregister"), {
-                "username": "adminuser",
-                "password1": "ComplexPass123",
-                "password2": "ComplexPass123",
-            })
-            self.assertEqual(response.status_code, 302)
-            self.assertTrue(User.objects.filter(username="adminuser").exists())
+class AdminRegisterViewTests(TestCase):
+    print("Class-Datei wurde geladen 15")
+    def test_adminregister_get(self):
+        print("test-Datei wurde geladen 15.1")
+        response = self.client.get(reverse("adminregister"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "adminregister.html")
+
+    def test_adminregister_post(self):
+        print("test-Datei wurde geladen 15.2")
+        response = self.client.post(reverse("adminregister"), {
+            "username": "adminuser",
+            "password1": "ComplexPass123",
+            "password2": "ComplexPass123",
+            "access_code": "HWZ"
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(User.objects.filter(username="adminuser").exists())
+
+    def test_adminregister_no_post(self):
+        response = self.client.post(reverse("adminregister"), {
+            "username": "adminuser",
+            "password1": "ComplexPass123",
+            "password2": "ComplexPass123",
+            "access_code": "WRONGCODE"
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Ungültiger Code")
+        self.assertFalse(User.objects.filter(username="adminuser").exists())
 
 
 

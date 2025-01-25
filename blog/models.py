@@ -93,7 +93,7 @@ class Exercise(models.Model): #[3]
     reps = models.PositiveIntegerField()
     weight = models.FloatField()
 
-    def __str__(selfself):
+    def __str__(self):
         return f"{self.name} - {self.sets}x{self.reps} @ {self.weight}kg"
 
 

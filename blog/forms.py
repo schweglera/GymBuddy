@@ -79,10 +79,11 @@ class AdminRegisterForm(UserCreationForm):
         model = User
         fields = ["username", "password1", "password2", "access_code"]
 
-    def secret_admin_code(self):
+    def clean_access_code(self):
+        print("clean_access_code called")
         access_code = self.cleaned_data["access_code"] # [1]
-        SECRET_CODE = "HWZ"
-        if access_code != SECRET_CODE:
+        secret_code = "HWZ"
+        if access_code != secret_code:
             raise forms.ValidationError("Ungültiger Code")
         return access_code
 
