@@ -1,4 +1,3 @@
-from django.core.exceptions import ValidationError
 from django.core.validators import MaxLengthValidator, MinLengthValidator
 from django.db import models
 from django.contrib.auth.models import User
