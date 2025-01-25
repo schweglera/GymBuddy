@@ -12,7 +12,7 @@ from .forms import AdminRegisterForm
 from .forms import CoachCreateForm
 from .models import Article, TrainingPlan, Workout, Exercise, MealPlan, Coach
 
-ExerciseFormSet = modelformset_factory(Exercise, form=ExerciseCreateForm, extra=1)
+ExerciseCreateFormSet = modelformset_factory(Exercise, form=ExerciseCreateForm, extra=1)
 
 
 
@@ -142,7 +142,7 @@ def workout_create(request):
             return redirect("dashboard")
     else:
         workout_form = WorkoutCreateForm()
-        exercise_formset = ExerciseFormSet(queryset=Exercise.objects.none())
+        exercise_formset = ExerciseCreateFormSet(queryset=Exercise.objects.none())
 
     return render(request, "workout_create.html", {
         "workout_form": workout_form,
