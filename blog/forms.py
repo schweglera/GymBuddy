@@ -80,7 +80,6 @@ class AdminRegisterForm(UserCreationForm):
         fields = ["username", "password1", "password2", "access_code"]
 
     def clean_access_code(self):
-        print("clean_access_code called")
         access_code = self.cleaned_data["access_code"] # [1]
         secret_code = "HWZ"
         if access_code != secret_code:
