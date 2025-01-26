@@ -1,14 +1,28 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <h1>Login</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
+    <div class="container">
+        <h1>Login</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+
+        <p>Noch keinen Account? <a href="{% url 'register' %}">Jetzt registrieren</a></p>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Gym-Buddy | NADA Software</p>
+    </footer>
 </body>
 </html>

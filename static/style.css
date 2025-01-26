@@ -1,34 +1,37 @@
+/* Global Styles */
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
-}
-
-.container {
-    width: 50%;
-    margin: 0 auto; /* Zentriert den Container horizontal */
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h1, h2 {
-    color: #0056b3;
-}
-
-p, a {
     color: #333;
 }
 
-a:hover {
-    text-decoration: underline;
+.container {
+    width: 80%;
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
+h1 {
+    text-align: center;
+    color: #0056b3;
+}
+
+h2 {
+    color: #0056b3;
+    margin-top: 20px;
+}
+
+/* Form Styles */
 form {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 button {
@@ -38,30 +41,83 @@ button {
     padding: 10px 20px;
     cursor: pointer;
     font-size: 1em;
+    border-radius: 5px;
+    margin-top: 20px;
+    width: 100%;
 }
 
 button:hover {
     background-color: #004494;
 }
 
-.errorlist {
+/* Button Class for Links */
+.btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #0056b3;
     color: white;
-    background-color: red;
-    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
 }
 
-label {
-  display: block;
+.btn:hover {
+    background-color: #004494;
 }
 
-input[type=text], textarea {
+/* Exercise Form Styles */
+.exercise-form {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.exercise-form input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
     font-size: 1em;
 }
 
-textarea {
-    font-family: inherit;
+/* Navigation Links */
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
+.navigation a {
+    color: #007BFF;
+    text-decoration: none;
+    font-size: 1em;
+}
 
+.navigation a:hover {
+    text-decoration: underline;
+}
 
+/* Footer Styles */
+footer {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* Navigation Footer */
+.navigation-link {
+    color: #007BFF;
+    text-decoration: none;
+    font-size: 1em;
+}
+
+.navigation-link:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
 }

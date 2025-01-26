@@ -1,7 +1,9 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ article.title }}</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
@@ -9,23 +11,32 @@
     <div class="container">
         <h1>{{ article.title }}</h1>
         <p>{{ article.content }}</p>
-        <h2>Kommentare</h2>
-        <div>
-            {% for comment in article.comments.all %}
-            <p><strong>{{ comment.author }}:</strong> {{ comment.text }}</p>
-            {% empty %}
-            <p>Keine Kommentare vorhanden.</p>
-            {% endfor %}
+
+        <section class="comments">
+            <h2>Kommentare</h2>
+            <div>
+                {% for comment in article.comments.all %}
+                    <div class="comment">
+                        <p><strong>{{ comment.author }}:</strong> {{ comment.text }}</p>
+                    </div>
+                {% empty %}
+                    <p>Keine Kommentare vorhanden.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="add-comment">
+            <h2>Kommentar hinzufügen</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Kommentar absenden</button>
+            </form>
+        </section>
+
+        <div class="footer-links">
+            <a href="{% url 'article_list' %}">Zurück zur Artikelübersicht</a>
         </div>
-
-        <h2>Kommentar hinzufügen</h2>
-
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Kommentar absenden</button>
-        </form>
-        <a href="{% url 'article_list' %}">Startseite</a>
     </div>
 </body>
 </html>

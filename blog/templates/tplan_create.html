@@ -1,17 +1,26 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trainingsplan erstellen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <h1>Erfasse Dein Trainingsplan</h1>
+    <div class="container">
+        <h1>Erfasse Deinen Trainingsplan</h1>
+
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Plan speichern</button>
         </form>
-    <a href="{% url 'dashboard' %}">Zurück zum Dashboard</a>
-    <a href="{% url 'article_list' %}">Startseite</a>
+
+        <div class="footer-links">
+            <a href="{% url 'dashboard' %}" class="back-link">Zurück zum Dashboard</a>
+            <a href="{% url 'article_list' %}" class="home-link">Startseite</a>
+        </div>
+    </div>
 </body>
 </html>

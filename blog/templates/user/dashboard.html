@@ -1,62 +1,66 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <h1>Willkommen, {{ user.username }}</h1>
+    <div class="container">
+        <h1>Willkommen, {{ user.username }}</h1>
 
-    <h2>Letzte 5 Workouts</h2>
-    <ul>
-        {% for workout in workouts %}
-            <li>{{ workout.date }} - {{ workout.workout_type }}: {{ workout.duration }}</li>
-        {% empty %}
-            <li>Keine Workouts gefunden.</li>
-        {% endfor %}
-    </ul>
-    <p><a href="{% url 'all_workouts' %}">Alle Workouts anzeigen</a></p>
+        <h2>Letzte 5 Workouts</h2>
+        <ul>
+            {% for workout in workouts %}
+                <li>{{ workout.date }} - {{ workout.workout_type }}: {{ workout.duration }}</li>
+            {% empty %}
+                <li>Keine Workouts gefunden.</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'all_workouts' %}" class="navigation-link">Alle Workouts anzeigen</a>
 
-    <h2>Trainingspläne</h2>
-    <ul>
-        {% for tplan in tplans %}
-            <li>
-                <a href="{% url 'tplan_detail' tplan.pk %}">
-                    {{ tplan.name }} - {{ tplan.category }}
-                </a>
-            </li>
-        {% empty %}
-            <li>Keine Trainingspläne gefunden.</li>
-        {% endfor %}
+        <h2>Trainingspläne</h2>
+        <ul>
+            {% for tplan in tplans %}
+                <li>
+                    <a href="{% url 'tplan_detail' tplan.pk %}">
+                        {{ tplan.name }} - {{ tplan.category }}
+                    </a>
+                </li>
+            {% empty %}
+                <li>Keine Trainingspläne gefunden.</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'tplan_create' %}" class="navigation-link">Trainingsplan erstellen</a>
 
-    </ul>
-    <ul>
-    <a href="{% url 'tplan_create'  %}">
-    Trainingsplan erstellen
-    </a>
-    </ul>
+        <h2>Ernährungspläne</h2>
+        <ul>
+            {% for mplan in mplans %}
+                <li>
+                    <a href="{% url 'mplan_detail' mplan.pk %}">
+                        {{ mplan.name }} - {{ mplan.calories }} kcal
+                    </a>
+                </li>
+            {% empty %}
+                <li>Keine Ernährungspläne gefunden.</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'mplan_create' %}" class="navigation-link">Ernährungsplan erstellen</a>
 
-    <h2>Ernährungspläne</h2>
-    <ul>
-        {% for mplan in mplans %}
-            <li>
-                <a href="{% url 'mplan_detail' mplan.pk %}">
-                    {{ mplan.name }} - {{ mplan.calories }}
-                </a>
-            </li>
-        {% empty %}
-            <li>Keine Pläne gefunden.</li>
-        {% endfor %}
-    </ul>
+        <div class="navigation">
+            <a href="{% url 'article_list' %}" class="navigation-link">Startseite</a>
+        </div>
 
-    <ul>
-    <a href="{% url 'mplan_create'  %}">
-    Ernährungsplan erstellen
-    </a>
-    </ul>
+        <form method="post" action="{% url 'logout' %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn">Logout</button>
+        </form>
 
-    </ul>
-    <a href="{% url 'article_list' %}">Startseite</a>
-    <a href="{% url 'logout' %}">Logout</a>
-    </ul>
+        <footer class="footer">
+            <p>&copy; 2025 Gym-Buddy | NADA Software</p>
+        </footer>
+    </div>
 </body>
 </html>

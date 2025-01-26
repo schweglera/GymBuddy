@@ -1,24 +1,35 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Workout Detail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ workout.workout_type }} - Details</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <h1>{{ workout.workout_type }} - Details</h1>
-    <p>Datum: {{ workout.date }}</p>
-    <p>Dauer: {{ workout.duration }}</p>
+    <div class="container">
+        <h1>{{ workout.workout_type }} - Details</h1>
+        <p><strong>Datum:</strong> {{ workout.date }}</p>
+        <p><strong>Dauer:</strong> {{ workout.duration }}</p>
 
-    <h2>Übungen:</h2>
-    <ul>
-        {% for exercise in exercises %}
-            <li>{{ exercise.name }} - {{ exercise.sets }} Sätze x {{ exercise.reps }} Wiederholungen @ {{ exercise.weight }} kg</li>
-        {% empty %}
-            <li>Keine Übungen hinzugefügt.</li>
-        {% endfor %}
-    </ul>
+        <h2>Übungen:</h2>
+        <ul>
+            {% for exercise in exercises %}
+                <li>
+                    <strong>{{ exercise.name }}</strong> -
+                    {{ exercise.sets }} Sätze x {{ exercise.reps }} Wiederholungen
+                    @ {{ exercise.weight }} kg
+                </li>
+            {% empty %}
+                <li>Keine Übungen hinzugefügt.</li>
+            {% endfor %}
+        </ul>
 
-    <a href="{% url 'all_workouts' %}">Zurück zu allen Workouts</a>
-    <a href="{% url 'dashboard' %}">Zurück zum Dashboard</a>
+        <div class="footer-links">
+            <a href="{% url 'all_workouts' %}" class="back-link">Zurück zu allen Workouts</a>
+            <a href="{% url 'dashboard' %}" class="home-link">Zurück zum Dashboard</a>
+        </div>
+    </div>
 </body>
 </html>

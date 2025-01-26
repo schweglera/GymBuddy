@@ -1,17 +1,27 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coach hinzufügen</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <h1>Coach hinzufügen</h1>
+    <div class="container">
+        <h1>Coach hinzufügen</h1>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Coach erstellen</button>
-    </form>
+        <section class="form-section">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="submit-btn">Coach erstellen</button>
+            </form>
+        </section>
 
-    <a href="{% url 'article_list' %}">Zurück zur Startseite</a>
+        <section class="footer-links">
+            <a href="{% url 'article_list' %}" class="back-link">Zurück zur Startseite</a>
+        </section>
+    </div>
 </body>
 </html>

@@ -19,39 +19,40 @@
     </script>
 </head>
 <body>
-    <h1>Erfasse Dein Workout</h1>
-    <form method="post">
-        {% csrf_token %}
-        <h2>Workout Details</h2>
-        {{ workout_form.as_p }}
+    <div class="container">
+        <h1>Erfasse Dein Workout</h1>
+        <form method="post">
+            {% csrf_token %}
+            <h2>Workout Details</h2>
+            {{ workout_form.as_p }}
 
-        <h2>Exercises</h2>
-        <div id="exercise-container">
-            {{ exercise_formset.management_form }}
-            {% for form in exercise_formset %}
-                <div class="exercise-form">
-                    {{ form.as_p }}
-                </div>
-            {% endfor %}
+            <h2>Übungen</h2>
+            <div id="exercise-container">
+                {{ exercise_formset.management_form }}
+                {% for form in exercise_formset %}
+                    <div class="exercise-form">
+                        {{ form.as_p }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div id="empty-form-template" style="display: none;">
+                {{ exercise_formset.empty_form.as_p|safe }}
+            </div>
+
+            <button type="button" class="btn" onclick="addExerciseForm()">+ Übung hinzufügen</button>
+            <button type="submit" class="btn">Workout speichern</button>
+        </form>
+
+        <div class="navigation">
+            <a href="{% url 'dashboard' %}" class="btn">Zum Dashboard</a>
+            <a href="{% url 'article_list' %}" class="btn">Startseite</a>
         </div>
 
-        <div id="empty-form-template" style="display: none;">
-            {{ exercise_formset.empty_form.as_p|safe }}
-        </div>
-
-        <button type="button" onclick="addExerciseForm()">+ Übung hinzufügen</button>
-        <button type="submit">Workout speichern</button>
-    </form>
-
-    <a href="{% url 'dashboard' %}">Zum Dashboard</a>
-    <a href="{% url 'article_list' %}">Startseite</a>
-
-    <form method="post" action="{% url 'logout' %}" style="display: inline;">
-        {% csrf_token %}
-        <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer; margin-top: 20px;">
-            Logout
-        </button>
-    </form>
-
+        <form method="post" action="{% url 'logout' %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn">Logout</button>
+        </form>
+    </div>
 </body>
 </html>

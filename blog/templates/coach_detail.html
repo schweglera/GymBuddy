@@ -1,16 +1,39 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ coach.name }} - Details</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <h1>{{ coach.name }}</h1>
-    <p>{{ coach.bio }}</p>
-    <p>Trainingskategorie: {{ coach.category }}</p>
-    <p>Erfahrung in Jahren: {{ coach.experience }} Jahre</p>
-    <p>Preis/Stunde: CHF {{ coach.price_hour }}</p>
-    <p>Email: <a href="mailto:{{ coach.email }}">{{ coach.email }}</a></p>
-    <a href="{% url 'all_coach' %}" class="btn">Zurück zu den Coaches</a>
-    <a href="{% url 'logout' %}">Logout</a>
+    <div class="container">
+        <h1>{{ coach.name }}</h1>
+
+        <section class="coach-details">
+            <p><strong>Beschreibung:</strong> {{ coach.bio }}</p>
+            <p><strong>Trainingskategorie:</strong> {{ coach.category }}</p>
+            <p><strong>Erfahrung:</strong> {{ coach.experience }} Jahre</p>
+            <p><strong>Preis/Stunde:</strong> CHF {{ coach.price_hour }}</p>
+            <p><strong>Email:</strong> <a href="mailto:{{ coach.email }}">{{ coach.email }}</a></p>
+        </section>
+
+        <section class="footer-links">
+            <a href="{% url 'all_coach' %}" class="back-link">Zurück zu den Coaches</a>
+            <a href="{% url 'logout' %}" class="logout-link">Logout</a>
+        </section>
+
+        <div class="navigation">
+            <a href="{% url 'article_list' %}" class="navigation-link">Startseite</a>
+            <a href="{% url 'logout' %}" class="navigation-link">Logout</a>
+        </div>
+
+        <form method="post" action="{% url 'logout' %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn">Logout</button>
+        </form>
+
+    </div>
 </body>
 </html>
