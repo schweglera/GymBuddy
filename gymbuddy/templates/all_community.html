@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alle Community-Beiträge</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Alle Community-Beiträge</h1>
+
+        <!-- Button zum Erstellen eines neuen Community-Beitrags -->
+        <div class="community-grid">
+            <div class="community-card">
+                <a href="{% url 'add_article' %}" class="btn">Neuen Community-Beitrag erstellen</a>
+            </div>
+        </div>
+
+        <!-- Anzeige der vorhandenen Community-Beiträge -->
+        <div class="community-grid">
+            {% for article in articles %}
+                <div class="community-card">
+                    <h3>{{ article.title }}</h3>
+                    <a href="{% url 'article_detail' article.pk %}" class="btn">Zum Artikel</a>
+                </div>
+            {% empty %}
+                <p>Keine Community-Beiträge vorhanden.</p>
+            {% endfor %}
+        </div>
+        <section class="navigation">
+            <a href="{% url 'homepage' %}" class="back-link">Startseite</a>
+        </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 Gym-Buddy | NADA Software</p>
+    </footer>
+    </div>
+</body>
+</html>

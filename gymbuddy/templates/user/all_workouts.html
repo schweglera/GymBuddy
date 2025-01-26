@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alle Workouts</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Alle Workouts von {{ user.username }}</h1>
+
+        <!-- Workout Liste -->
+        <div class="workout-list">
+            <ul>
+                {% for workout in workouts %}
+                    <li>
+                        <a href="{% url 'workout_detail' workout.pk %}" class="btn">
+                            {{ workout.date }} - {{ workout.workout_type }}: {{ workout.duration }}
+                        </a>
+                    </li>
+                {% empty %}
+                    <li>Keine Workouts gefunden.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Navigation Links (angepasst) -->
+        <div class="navigation">
+            <a href="{% url 'dashboard' %}" class="navigation-link">Zum Dashboard</a>
+            <a href="{% url 'homepage' %}" class="navigation-link">Startseite</a>
+        </div>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Gym-Buddy | NADA Software</p>
+    </footer>
+    </div>
+</body>
+</html>

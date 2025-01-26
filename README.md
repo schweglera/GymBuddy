@@ -1,4 +1,4 @@
-# Django Blog
+# Gym Buddy App
 ## Schritt 1: Python version prüfen
 ```bash
 python -version

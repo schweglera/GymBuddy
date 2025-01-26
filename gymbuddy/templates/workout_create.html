@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Workout aufzeichnen</title>
+    <style>
+    </style>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script>
+        function addExerciseForm() {
+            const container = document.getElementById("exercise-container");
+            const totalFormsInput = document.getElementById("id_form-TOTAL_FORMS");
+            const formCount = parseInt(totalFormsInput.value);
+            const emptyFormTemplate = document.getElementById("empty-form-template").innerHTML;
+            const newFormHtml = emptyFormTemplate.replace(/__prefix__/g, formCount);
+
+            const newFormElement = document.createElement("div");
+            newFormElement.classList.add("exercise-form");
+            newFormElement.innerHTML = newFormHtml;
+
+            container.appendChild(newFormElement);
+
+            const hr = document.createElement("hr");
+            container.appendChild(hr);
+
+            totalFormsInput.value = formCount + 1;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Erfasse Dein Workout</h1>
+        <form method="post">
+            {% csrf_token %}
+            <h2>Workout Details</h2>
+            {{ workout_form.as_p }}
+
+            <h2>Übungen</h2>
+            <div id="exercise-container">
+                {{ exercise_formset.management_form }}
+                {% for form in exercise_formset %}
+                    <div class="exercise-form">
+                        {{ form.as_p }}
+                    </div>
+                <hr>
+                {% endfor %}
+            </div>
+
+            <div id="empty-form-template" style="display: none;">
+                {{ exercise_formset.empty_form.as_p|safe }}
+            </div>
+
+            <button type="button" class="btn" onclick="addExerciseForm()">+ Übung hinzufügen</button>
+            <button type="submit" class="btn">Workout speichern</button>
+        </form>
+
+        <!-- Navigation Links (angepasst) -->
+        <div class="navigation">
+            <a href="{% url 'dashboard' %}" class="navigation-link">Zum Dashboard</a>
+            <a href="{% url 'homepage' %}" class="navigation-link">Startseite</a>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Gym-Buddy | NADA Software</p>
+        </footer>
+    </div>
+</body>
+</html>
+
