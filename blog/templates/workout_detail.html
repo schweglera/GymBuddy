@@ -26,10 +26,14 @@
             {% endfor %}
         </ul>
 
-        <div class="footer-links">
-            <a href="{% url 'all_workouts' %}" class="back-link">Zurück zu allen Workouts</a>
-            <a href="{% url 'dashboard' %}" class="home-link">Zurück zum Dashboard</a>
+        <div class="navigation">
+            <a href="{% url 'all_workouts' %}" class="back-link">Zu allen Workouts</a>
+            <a href="{% url 'dashboard' %}" class="navigation-link">Zum Dashboard</a>
         </div>
+
+        <footer>
+            <p>&copy; 2025 Gym-Buddy | NADA Software</p>
+        </footer>
     </div>
 </body>
 </html>

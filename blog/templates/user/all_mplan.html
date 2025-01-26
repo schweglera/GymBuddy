@@ -11,7 +11,7 @@
     <div class="container">
         <h1>Deine Ernährungspläne</h1>
 
-        <!-- Anzeige der Ernährungspläne -->
+        <!-- Display Meal Plans -->
         <ul>
             {% for mplan in mplans %}
                 <li>
@@ -24,9 +24,9 @@
             {% endfor %}
         </ul>
 
-        <!-- Navigation Links (Startseite und Dashboard) -->
+        <!-- Navigation Links -->
         <div class="navigation">
-            <a href="{% url 'dashboard' %}" class="navigation-link">Zurück zum Dashboard</a>
+            <a href="{% url 'dashboard' %}" class="navigation-link">Zum Dashboard</a>
             <a href="{% url 'article_list' %}" class="navigation-link">Startseite</a>
         </div>
 

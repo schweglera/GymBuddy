@@ -34,9 +34,13 @@
             </form>
         </section>
 
-        <div class="footer-links">
-            <a href="{% url 'article_list' %}">Zurück zur Artikelübersicht</a>
+        <div class="navigation">
+            <a href="{% url 'all_community' %}">Zur Artikelübersicht</a>
+            <a href="{% url 'article_list' %}" class="back-link">Startseite</a>
         </div>
+        <footer>
+            <p>&copy; 2025 Gym-Buddy | NADA Software</p>
+        </footer>
     </div>
 </body>
 </html>

@@ -22,19 +22,13 @@
 
         <!-- Navigation Links -->
         <div class="navigation">
-            <a href="{% url 'all_coach' %}" class="navigation-link">Zurück zu den Coaches</a>
+            <a href="{% url 'all_coach' %}" class="navigation-link">Zu den Coaches</a>
             <a href="{% url 'article_list' %}" class="navigation-link">Startseite</a>
         </div>
-
-        <!-- Logout Button -->
-        <form method="post" action="{% url 'logout' %}" class="logout-form">
-            {% csrf_token %}
-            <button type="submit" class="btn">Logout</button>
-        </form>
-    </div>
 
     <footer>
         <p>&copy; 2025 Gym-Buddy | NADA Software</p>
     </footer>
+    </div>
 </body>
 </html>

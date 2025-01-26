@@ -18,9 +18,10 @@
             <button type="submit" class="btn">Login</button>
         </form>
 
-        <p>Noch keinen Account? <a href="{% url 'register' %}">Jetzt registrieren</a></p>
+        <div class="navigation">
+            <a href="{% url 'register' %}" class="back-link">Noch keinen Account? Jetzt registrieren</a>
+        </div>
     </div>
-
     <footer>
         <p>&copy; 2025 Gym-Buddy | NADA Software</p>
     </footer>

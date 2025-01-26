@@ -121,17 +121,10 @@
             <a href="{% url 'article_list' %}" class="link">Startseite</a>
         </nav>
 
-        <form method="post" action="{% url 'logout' %}" class="logout-form">
-            {% csrf_token %}
-            <button type="submit" class="btn">Logout</button>
-        </form>
-
-   </div>
-
     <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2025 Gym-Buddy | NADA Software</p>
     </footer>
-
+   </div>
 </body>
 </html>
