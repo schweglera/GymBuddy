@@ -127,7 +127,7 @@ class TrainingPlan(models.Model):
 class Coach(models.Model):
     name = models.CharField(max_length=100)
     category = models.CharField(max_length=50)
-    bio = models.TextField(max_length=100)
+    bio = models.TextField(max_length=500)
     experience = models.PositiveIntegerField()
     price_hour = models.PositiveIntegerField()
     email = models.EmailField()
