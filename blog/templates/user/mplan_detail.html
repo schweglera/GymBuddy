@@ -1,19 +1,29 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Ernährungsplan Detail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ mplan.name }} - Details</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <h1>{{ mplan.name }} - Details</h1>
-    <p>Frühstück: {{ mplan.breakfast }}</p>
-    <p>Snack 1: {{ mplan.snack1 }}</p>
-    <p>Mittagessen: {{ mplan.lunch }}</p>
-    <p>Snack 2: {{ mplan.snack2 }}</p>
-    <p>Abendessen: {{ mplan.dinner }}</p>
-    <p>Kalorien: {{ mplan.calories }}</p>
+    <div class="container">
+        <h1>{{ mplan.name }} - Details</h1>
+        <section class="meal-plan-details">
+            <p><strong>Frühstück:</strong> {{ mplan.breakfast }}</p>
+            <p><strong>Snack 1:</strong> {{ mplan.snack1 }}</p>
+            <p><strong>Mittagessen:</strong> {{ mplan.lunch }}</p>
+            <p><strong>Snack 2:</strong> {{ mplan.snack2 }}</p>
+            <p><strong>Abendessen:</strong> {{ mplan.dinner }}</p>
+            <p><strong>Kalorien:</strong> {{ mplan.calories }}</p>
+        </section>
 
-    <a href="{% url 'dashboard' %}">Zurück zum Dashboard</a>
-    <a href="{% url 'article_list' %}">Startseite</a>
+        <div class="navigation">
+            <a href="{% url 'dashboard' %}" class="navigation-link">Zum Dashboard</a>
+            <a href="{% url 'article_list' %}" class="navigation-link">Startseite</a>
+        </div>
+
+    </div>
 </body>
 </html>

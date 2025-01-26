@@ -1,20 +1,31 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Trainingsplan Detail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ tplan.name }} - Details</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <h1>{{ tplan.name }} - Details</h1>
-    <p>Kategorie: {{ tplan.category }}</p>
-    <p>Übung 1: {{ tplan.exercise1 }}</p>
-    <p>Übung 2: {{ tplan.exercise2 }}</p>
-    <p>Übung 3: {{ tplan.exercise3 }}</p>
-    <p>Übung 4: {{ tplan.exercise4 }}</p>
-    <p>Übung 5: {{ tplan.exercise5 }}</p>
-    <p>Übung 6: {{ tplan.exercise6 }}</p>
+    <div class="container">
+        <h1>{{ tplan.name }} - Details</h1>
+        <section class="training-plan-details">
+            <p><strong>Kategorie:</strong> {{ tplan.category }}</p>
+            <p><strong>Übung 1:</strong> {{ tplan.exercise1 }}</p>
+            <p><strong>Übung 2:</strong> {{ tplan.exercise2 }}</p>
+            <p><strong>Übung 3:</strong> {{ tplan.exercise3 }}</p>
+            <p><strong>Übung 4:</strong> {{ tplan.exercise4 }}</p>
+            <p><strong>Übung 5:</strong> {{ tplan.exercise5 }}</p>
+            <p><strong>Übung 6:</strong> {{ tplan.exercise6 }}</p>
+        </section>
 
-    <a href="{% url 'all_tplan' %}">Zurück zu allen Trainingsplänen</a>
-    <a href="{% url 'dashboard' %}">Zurück zum Dashboard</a>
+        <div class="navigation">
+            <a href="{% url 'all_tplan' %}" class="navigation-link">Zurück zu allen Trainingsplänen</a>
+            <a href="{% url 'dashboard' %}" class="navigation-link">Zum Dashboard</a>
+        </div>
+
+
+    </div>
 </body>
 </html>

@@ -1,24 +1,31 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alle Trainingspläne</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <h1>Deine Trainingspläne</h1>
-    <ul>
-        {% for tplan in tplans %}
-            <li>
-                <a href="{% url 'tplan_detail' tplan.pk %}">
-                    {{ tplan.name }} - {{ tplan.category }}
-                </a>
-            </li>
-        {% empty %}
-            <li>Keine Pläne gefunden.</li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h1>Deine Trainingspläne</h1>
+        <div class="training-plan-grid">
+            {% for tplan in tplans %}
+                <div class="training-plan-card">
+                    <h3>{{ tplan.name }}</h3>
+                    <p><strong>Kategorie:</strong> {{ tplan.category }}</p>
+                    <a href="{% url 'tplan_detail' tplan.pk %}" class="btn">Zum Trainingsplan</a>
+                </div>
+            {% empty %}
+                <p>Keine Trainingspläne gefunden.</p>
+            {% endfor %}
+        </div>
 
-    <a href="{% url 'article_list' %}">Startseite</a>
-    <a href="{% url 'logout' %}">Logout</a>
+        <div class="navigation">
+            <a href="{% url 'article_list' %}" class="navigation-link">Startseite</a>
+        </div>
+
+    </div>
 </body>
 </html>

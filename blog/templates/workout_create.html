@@ -14,7 +14,14 @@
             const emptyFormTemplate = document.getElementById("empty-form-template").innerHTML;
             const newFormHtml = emptyFormTemplate.replace(/__prefix__/g, formCount);
 
-            container.insertAdjacentHTML("beforeend", newFormHtml);
+            const newFormElement = document.createElement("div");
+            newFormElement.classList.add("exercise-form");
+            newFormElement.innerHTML = newFormHtml;
+
+            container.appendChild(newFormElement);
+
+            const hr = document.createElement("hr");
+            container.appendChild(hr);
 
             totalFormsInput.value = formCount + 1;
         }
@@ -35,6 +42,7 @@
                     <div class="exercise-form">
                         {{ form.as_p }}
                     </div>
+                <hr>
                 {% endfor %}
             </div>
 
@@ -60,3 +68,4 @@
     </div>
 </body>
 </html>
+

@@ -1,22 +1,38 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alle Ernährungspläne</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <h1>Deine Ernährungspläne</h1>
-    <ul>
-        {% for mplan in mplans %}
-            <li>
-                <a href="{% url 'mplan_detail' mplan.pk %}">
-                    {{ mplan.name }} - {{ mplan.calories }}
-                </a>
-            </li>
-        {% empty %}
-            <li>Keine Pläne gefunden.</li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'dashboard' %}">Zurück zum Dashboard</a>
-    <a href="{% url 'article_list' %}">Startseite</a>
+    <div class="container">
+        <h1>Deine Ernährungspläne</h1>
+
+        <!-- Anzeige der Ernährungspläne -->
+        <ul>
+            {% for mplan in mplans %}
+                <li>
+                    <a href="{% url 'mplan_detail' mplan.pk %}" class="navigation-link">
+                        {{ mplan.name }} - {{ mplan.calories }} kcal
+                    </a>
+                </li>
+            {% empty %}
+                <li>Keine Ernährungspläne gefunden.</li>
+            {% endfor %}
+        </ul>
+
+        <!-- Navigation Links (Startseite und Dashboard) -->
+        <div class="navigation">
+            <a href="{% url 'dashboard' %}" class="navigation-link">Zurück zum Dashboard</a>
+            <a href="{% url 'article_list' %}" class="navigation-link">Startseite</a>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Gym-Buddy | NADA Software</p>
+        </footer>
+    </div>
 </body>
 </html>
