@@ -11,6 +11,7 @@
     <div class="container">
         <h1>{{ coach.name }}</h1>
 
+        <!-- Coach Details Section -->
         <section class="coach-details">
             <p><strong>Beschreibung:</strong> {{ coach.bio }}</p>
             <p><strong>Trainingskategorie:</strong> {{ coach.category }}</p>
@@ -19,21 +20,21 @@
             <p><strong>Email:</strong> <a href="mailto:{{ coach.email }}">{{ coach.email }}</a></p>
         </section>
 
-        <section class="footer-links">
-            <a href="{% url 'all_coach' %}" class="back-link">Zurück zu den Coaches</a>
-            <a href="{% url 'logout' %}" class="logout-link">Logout</a>
-        </section>
-
+        <!-- Navigation Links -->
         <div class="navigation">
+            <a href="{% url 'all_coach' %}" class="navigation-link">Zurück zu den Coaches</a>
             <a href="{% url 'article_list' %}" class="navigation-link">Startseite</a>
-            <a href="{% url 'logout' %}" class="navigation-link">Logout</a>
         </div>
 
-        <form method="post" action="{% url 'logout' %}" style="display: inline;">
+        <!-- Logout Button -->
+        <form method="post" action="{% url 'logout' %}" class="logout-form">
             {% csrf_token %}
             <button type="submit" class="btn">Logout</button>
         </form>
-
     </div>
+
+    <footer>
+        <p>&copy; 2025 Gym-Buddy | NADA Software</p>
+    </footer>
 </body>
 </html>

@@ -29,12 +29,10 @@
                 <p>Keine Community-Beiträge vorhanden.</p>
             {% endfor %}
         </div>
+        <section class="footer-links">
+            <a href="{% url 'article_list' %}" class="back-link">Zurück zur Startseite</a>
+        </section>
     </div>
-
-    <nav class="footer-nav">
-        <a href="{% url 'article_list' %}" class="btn">Startseite</a>
-    </nav>
-
     <footer class="footer">
         <p>&copy; 2025 Gym-Buddy | NADA Software</p>
     </footer>
