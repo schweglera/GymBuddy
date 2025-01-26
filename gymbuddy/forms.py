@@ -144,7 +144,8 @@ class MealPlanCreateForm(forms.ModelForm):
                   "snack1": "Snack 1",
                   "lunch": "Mittagessen",
                   "snack2": "Snack 2",
-                  "dinner": "Abendessen",}
+                  "dinner": "Abendessen",
+                  "calories": "Kalorien"}
 
 class CoachCreateForm(forms.ModelForm):
 
